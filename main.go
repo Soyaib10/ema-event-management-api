@@ -3,11 +3,13 @@ package main
 import (
 	"net/http"
 
+	"github.com/Soyaib10/eba-event-booking-api/db"
 	"github.com/Soyaib10/eba-event-booking-api/models"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	db.InitDB()
 	r := gin.Default()
 
 	r.GET("/events", getEvents)
