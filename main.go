@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Soyaib10/eba-event-booking-api/db"
 	"github.com/Soyaib10/eba-event-booking-api/models"
@@ -13,8 +14,26 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/events", getEvents)
+	r.GET("/events/:id", getEvent)
 	r.POST("/events", createEvent)
+
 	r.Run(":8080") 
+}
+
+func getEvent(c *gin.Context) {
+	// Get id from path
+	eventId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse event id."})
+		return
+	}
+
+	event, err := models.GetEventByID(eventId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fectch event. Try again later."})
+		return
+	}
+	c.JSON(http.StatusOK, event)
 }
 
 func getEvents(c *gin.Context) {
@@ -37,8 +56,8 @@ func createEvent(c *gin.Context) {
 	event.ID = 1
 	event.UserID = 1
 	event.Save()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create an evnet. Tey again later."})
-	}
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create an evnet. Tey again later."})
+	// }
 	c.JSON(http.StatusCreated, gin.H{"message": "Event created", "event": event})
 }
