@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Soyaib10/eba-event-booking-api/models"
+	"github.com/Soyaib10/eba-event-booking-api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +21,15 @@ func login (c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Could not authenticate user."})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Login successfull!"})
+
+	token, err := utils.GenerateToken(user.Email, user.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not authenticate user."})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successfull!",
+		"token": token,
+	})
 }
 
 func signUp(c *gin.Context) {
