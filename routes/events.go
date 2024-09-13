@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// This file is responsible for making application handler.
 func deleteEvent(c *gin.Context) {
 	// Get id from path
 	eventId, err := strconv.ParseInt(c.Param("id"), 10, 64)

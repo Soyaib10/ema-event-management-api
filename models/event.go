@@ -6,6 +6,7 @@ import (
 	"github.com/Soyaib10/eba-event-booking-api/db"
 )
 
+// This file is responsible of sql qurey making
 type Event struct {
 	ID          int64
 	Name        string    `binding:"required"`
