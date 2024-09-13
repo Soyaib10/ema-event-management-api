@@ -1,6 +1,10 @@
 package models
 
-import "github.com/Soyaib10/eba-event-booking-api/db"
+import (
+
+	"github.com/Soyaib10/eba-event-booking-api/db"
+	"github.com/Soyaib10/eba-event-booking-api/utils"
+)
 
 type User struct {
 	ID       int64
@@ -17,9 +21,13 @@ func (u User) Save() error {
 		return err
 	}
 	defer stmt.Close()
-
+	
+	hashedPassword, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return err
+	}
 	// Execute stmt
-	result, err := stmt.Exec(u.Email, u.Password)
+	result, err := stmt.Exec(u.Email, hashedPassword)
 	if err != nil {
 		return err
 	}

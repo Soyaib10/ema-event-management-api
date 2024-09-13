@@ -16,7 +16,7 @@ type Event struct {
 	UserID      int
 }
 
-var events = []Event{}
+// var events = []Event{}
 
 // Save saves event in a slice of struct named events
 func (e Event) Save() error {
@@ -30,6 +30,9 @@ func (e Event) Save() error {
 	defer stmt.Close()
 
 	result, err := stmt.Exec(e.Name, e.Description, e.Location, e.DateTime, e.UserID) // Exac() used when to update or change data
+	if err != nil {
+		return err
+	}
 	id, err := result.LastInsertId()
 	e.ID = id
 	return err
