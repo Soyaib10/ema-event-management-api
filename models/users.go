@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 
 	"github.com/Soyaib10/eba-event-booking-api/db"
 	"github.com/Soyaib10/eba-event-booking-api/utils"
@@ -10,6 +11,22 @@ type User struct {
 	ID       int64
 	Email    string `binding:"required"`
 	Password string `binding:"required"`
+}
+
+func (u User) ValidateCredentials() error {
+	query := "SELECT password FROM users WHERE email = ?"
+	row := db.DB.QueryRow(query, u.Email)
+
+	var retrivedPassword string
+	err := row.Scan(&retrivedPassword)
+	if err != nil {
+		return errors.New("credentials invalid")
+	}
+	isPasswordValid := utils.CheckPasswordHash(u.Password, retrivedPassword)
+	if !isPasswordValid {
+		return errors.New("credentials invalid")
+	}
+	return nil
 }
 
 func (u User) Save() error {
