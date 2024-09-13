@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/Soyaib10/eba-event-booking-api/models"
-	"github.com/Soyaib10/eba-event-booking-api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -60,7 +59,6 @@ func updateEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Update successfull"})
 }
 
-
 func getEvent(c *gin.Context) {
 	// Get id from path
 	eventId, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -87,27 +85,15 @@ func getEvents(c *gin.Context) {
 }
 
 func createEvent(c *gin.Context) {
-	// Authorization
-	token := c.Request.Header.Get("Authorization")
-	if token == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized"})
-		return
-	}
-	userId, err := utils.VerifyToken(token)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized"})
-		return
-	}
-
-	// normal part
 	var event models.Event
-	err = c.ShouldBindJSON(&event)
+	err := c.ShouldBindJSON(&event)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse JSON data"})
 		return
 	}
 
-	event.UserID = int64(userId)
+	userId := c.GetInt64("userId")
+	event.UserID = userId
 	err = event.Save()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create event. Try again later."})
