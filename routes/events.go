@@ -38,10 +38,16 @@ func updateEvent(c *gin.Context) {
 		return
 	}
 
+	userId := c.GetInt64("userId")
 	// Get all info of a single id
-	_, err = models.GetEventByID(eventId)
+	event, err := models.GetEventByID(eventId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch the event"})
+	}
+
+	if event.UserID != userId {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Not authorized to update event."})
+		return
 	}
 
 	var updatedEvent models.Event
