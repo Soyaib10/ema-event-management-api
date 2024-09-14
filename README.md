@@ -1,7 +1,7 @@
 
-# EBA - Event Booking API
+# EMA - Event Management API
 
-EBA, Event Booking API, is a backend service built using Go's Gin web framework. This API allows users to create, view, update, and delete events (CRUD operations), as well as register for and cancel registrations for specific events. I followed the course "Go - The Complete Guide" by Maximilian Schwarzmüller to develop this project.
+EMA, Event Management API, is a backend service built using Go's Gin web framework. This API allows users to create, view, update, and delete events (CRUD operations), as well as register for and cancel registrations for specific events. I followed the course "Go - The Complete Guide" by Maximilian Schwarzmüller to develop this project.
 
 ## Key Features
 
@@ -13,6 +13,7 @@ EBA, Event Booking API, is a backend service built using Go's Gin web framework.
 ## Tech Stack
 
 - **Backend**: [Golang](https://golang.org/) with [Gin Framework](https://github.com/gin-gonic/gin)
+- **Database**: SqLite3
 - **Authentication**: [JWT](https://jwt.io/) and [jwt-go](https://pkg.go.dev/github.com/golang-jwt/jwt)
 - **Password Hashing**: [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt)
 
@@ -41,8 +42,8 @@ EBA, Event Booking API, is a backend service built using Go's Gin web framework.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Soyaib10/eba-event-booking-api
-   cd eba-event-booking-api
+   git clone https://github.com/Soyaib10/ema-event-management-api
+   cd ema-event-management-api
    ```
 
 2. Install dependencies:
@@ -78,7 +79,7 @@ If you’ve enjoyed working with this project, a ⭐️ would be greatly appreci
 
 ---
 
-**🔗 [Give a Star ⭐️](https://github.com/Soyaib10/eba-event-booking-api)**
+**🔗 [Give a Star ⭐️](https://github.com/Soyaib10/ema-event-management-api)**
 
 **💬 [Share Your Thoughts](mailto:soyaibzihad10@gmail.com)**
 
